@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace H_Translation_Studio
+namespace HTStudio
 {
     /// <summary>
     /// App.xaml에 대한 상호 작용 논리
