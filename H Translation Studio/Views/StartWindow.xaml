@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HTStudio.Views"
         mc:Ignorable="d"
-        Title="H Translation Studio" Height="303.278" Width="571.596">
+        Title="HT Studio" Height="303.278" Width="571.596">
     <Grid Margin="-2,2,2,-2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*"/>

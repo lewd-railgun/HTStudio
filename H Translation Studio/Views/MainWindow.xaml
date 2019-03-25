@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HTStudio.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="HT Studio" Height="450" Width="728.907">
     <Grid>
-        
+        <TextBlock x:Name="WorkingTextBlock" Margin="10,10,10,0" TextWrapping="Wrap" Text="작업중이 아님" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="프로젝트 타입: 알 수 없음" VerticalAlignment="Top" Width="701"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,52,0,0" TextWrapping="Wrap" Text="원본/번역기/손번역 상태 : 0/0/0" VerticalAlignment="Top" Width="701"/>
+        <GroupBox Header="툴박스" HorizontalAlignment="Left" Height="62" Margin="10,73,0,0" VerticalAlignment="Top" Width="701">
+            <Grid>
+                <Button x:Name="ExtractStringButton" Content="문자열 추출" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="문자열 적용" HorizontalAlignment="Left" Margin="604,10,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="ezTransXP" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button Content="파일 변경" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="75"/>
+            </Grid>
+        </GroupBox>
+        <ListBox HorizontalAlignment="Left" Height="269" Margin="10,140,0,0" VerticalAlignment="Top" Width="196"/>
+        <Label Content="원문" HorizontalAlignment="Left" Margin="211,144,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="72" Margin="257,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="454"/>
+        <Label Content="기계번역" HorizontalAlignment="Left" Margin="211,221,0,0" VerticalAlignment="Top" Height="26" Width="34"/>
+        <TextBox HorizontalAlignment="Left" Height="72" Margin="257,221,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="454"/>
+        <Label Content="손번역" HorizontalAlignment="Left" Margin="211,298,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="72" Margin="257,298,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="454"/>
+        <Button Content="이전줄" HorizontalAlignment="Left" Height="24" Margin="213,385,0,0" VerticalAlignment="Top" Width="81"/>
+        <Button Content="다음줄" HorizontalAlignment="Left" Height="24" Margin="299,385,0,0" VerticalAlignment="Top" Width="81"/>
+        <Button Content="작업이 필요한 문자열" HorizontalAlignment="Left" Height="24" Margin="385,385,0,0" VerticalAlignment="Top" Width="129"/>
     </Grid>
 </Window>
