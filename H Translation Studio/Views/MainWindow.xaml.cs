@@ -23,7 +23,7 @@ namespace HTStudio.Views
 
         public void startWorkWith(string directory)
         {
-
+            workingDirectory = directory;
         }
 
         public MainWindow()

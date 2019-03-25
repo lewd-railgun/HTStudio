@@ -28,7 +28,6 @@ namespace HTStudio.Views
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Select Project Directory
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
             if(result != System.Windows.Forms.DialogResult.OK)
@@ -38,6 +37,7 @@ namespace HTStudio.Views
 
             MainWindow mainWindow = new MainWindow();
             mainWindow.startWorkWith(dialog.SelectedPath);
+            File.WriteAllText(lastPathFile, dialog.SelectedPath);
             mainWindow.Show();
             Close();
         }
@@ -49,7 +49,10 @@ namespace HTStudio.Views
                 MessageBox.Show("최근에 열었던 프로젝트가 없습니다");
                 return;
             }
-            //TODO: Open Last Project
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.startWorkWith( File.ReadAllText(lastPathFile) );
+            mainWindow.Show();
+            Close();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
