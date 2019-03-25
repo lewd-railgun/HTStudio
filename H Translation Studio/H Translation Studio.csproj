@@ -78,6 +78,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Container\TranslateString.cs" />
+    <Compile Include="Project\Base\BaseExtractor.cs" />
+    <Compile Include="Project\Base\BaseProject.cs" />
+    <Compile Include="Project\RPGMV\RPGMVExtractor.cs" />
+    <Compile Include="Project\RPGMV\RPGMVProject.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -122,9 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Container\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
