@@ -1,0 +1,21 @@
+﻿<Window x:Class="HTStudio.Views.StartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HTStudio.Views"
+        mc:Ignorable="d"
+        Title="H Translation Studio" Height="303.278" Width="571.596">
+    <Grid Margin="-2,2,2,-2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="61*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="NewButton" Content="새 프로젝트 시작하기" HorizontalAlignment="Left" Height="50" Margin="0,98,0,0" VerticalAlignment="Top" Width="234" Click="NewButton_Click" Grid.Column="1"/>
+        <Button x:Name="OpenButton" Content="마지막으로 열었던 프로젝트 열기" HorizontalAlignment="Left" Height="50" Margin="0,153,0,0" VerticalAlignment="Top" Width="234" Click="OpenButton_Click" Grid.Column="1"/>
+        <Button x:Name="ExitButton" Content="프로그램 닫기" HorizontalAlignment="Left" Height="50" Margin="0,208,0,0" VerticalAlignment="Top" Width="234" Click="ExitButton_Click" Grid.Column="1"/>
+        <Label Content="H Translation Studio" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="26" Width="122"/>
+        <TextBlock x:Name="VersionTextBlock" HorizontalAlignment="Left" Margin="132,18,0,0" TextWrapping="Wrap" Text="Version 0.1" VerticalAlignment="Top" FontSize="9" Height="18" Width="432" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>
