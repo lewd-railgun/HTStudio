@@ -19,6 +19,13 @@ namespace HTStudio.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string workingDirectory;
+
+        public void startWorkWith(string directory)
+        {
+
+        }
+
         public MainWindow()
         {
             InitializeComponent();

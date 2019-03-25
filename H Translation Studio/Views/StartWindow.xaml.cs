@@ -5,13 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.IO;
 
 namespace HTStudio.Views
 {
@@ -20,6 +14,8 @@ namespace HTStudio.Views
     /// </summary>
     public partial class StartWindow : Window
     {
+        private string lastPathFile = "lastPath.txt";
+
         public StartWindow()
         {
             InitializeComponent();
@@ -33,15 +29,27 @@ namespace HTStudio.Views
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO: Select Project Directory
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            if(result != System.Windows.Forms.DialogResult.OK)
+            {
+                return;
+            }
+
             MainWindow mainWindow = new MainWindow();
+            mainWindow.startWorkWith(dialog.SelectedPath);
             mainWindow.Show();
             Close();
         }
 
         private void OpenButton_Click(object sender, RoutedEventArgs e)
         {
+            if( !File.Exists(lastPathFile) )
+            {
+                MessageBox.Show("최근에 열었던 프로젝트가 없습니다");
+                return;
+            }
             //TODO: Open Last Project
-            MessageBox.Show("최근에 열었던 프로젝트가 없습니다");
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
