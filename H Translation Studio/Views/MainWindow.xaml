@@ -15,7 +15,6 @@
                 <Button x:Name="ExtractStringButton" Content="문자열 추출" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
                 <Button x:Name="ApplyStringButton" Content="문자열 적용" HorizontalAlignment="Left" Margin="604,10,0,0" VerticalAlignment="Top" Width="75"/>
                 <Button x:Name="AutoTransButton" Content="ezTransXP" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button x:Name="ChangeFileButton" Content="파일 변경" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="75"/>
             </Grid>
         </GroupBox>
         <ListBox x:Name="StringListBox" HorizontalAlignment="Left" Height="269" Margin="10,140,0,0" VerticalAlignment="Top" Width="196"/>
