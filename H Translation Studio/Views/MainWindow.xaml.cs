@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Path = System.IO.Path;
 using HTStudio.Project.Base;
+using HTStudio.Container;
 
 namespace HTStudio.Views
 {
@@ -42,6 +43,26 @@ namespace HTStudio.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ExtractStringButton_Click(object sender, RoutedEventArgs e)
+        {
+            project.Extractor.Extract();
+            foreach(TranslateString str in project.Extractor.TranslateStrings)
+            {
+                StringListBox.Items.Add(str);
+            }
+        }
+
+        private void StringListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (StringListBox.SelectedIndex == -1) return;
+
+            var item = StringListBox.Items[StringListBox.SelectedIndex] as TranslateString;
+
+            OriginalTextBox.Text = item.Original;
+            MachineTextBox.Text = item.Machine;
+            HandTextBox.Text = item.Hand;
         }
     }
 }

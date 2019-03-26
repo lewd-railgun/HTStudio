@@ -28,7 +28,5 @@ namespace HTStudio.Project.RPGMV
 
             return new RPGMVProject(path);
         }
-
-
     }
 }

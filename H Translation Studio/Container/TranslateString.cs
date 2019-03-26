@@ -11,5 +11,10 @@ namespace HTStudio.Container
     public class TranslateString
     {
         public string Original, Machine, Hand;
+
+        public override string ToString()
+        {
+            return Original;
+        }
     }
 }

@@ -49,10 +49,17 @@ namespace HTStudio.Project.Base
 
         }
 
-        public virtual List<TranslateString> TranslateStrings {
+        private List<TranslateString> translateStrings = new List<TranslateString>();
+        public List<TranslateString> TranslateStrings {
             get {
-                return null;
+                return translateStrings;
             }
+        }
+
+        protected void InsertNewTranslateStrings(string original)
+        {
+            if (original.Trim() == "") return;
+            translateStrings.Add(new TranslateString() { Original = original, Hand = "", Machine = "" });
         }
     }
 }
