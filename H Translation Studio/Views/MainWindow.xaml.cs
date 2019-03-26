@@ -38,6 +38,11 @@ namespace HTStudio.Views
 
             ExtractStringButton.IsEnabled = project.Extractor.SupportExtract;
             ApplyStringButton.IsEnabled = project.Extractor.SupportApply;
+
+            foreach (TranslateString str in project.Extractor.TranslateStrings)
+            {
+                StringListBox.Items.Add(str);
+            }
         }
 
         public MainWindow()
@@ -63,6 +68,27 @@ namespace HTStudio.Views
             OriginalTextBox.Text = item.Original;
             MachineTextBox.Text = item.Machine;
             HandTextBox.Text = item.Hand;
+        }
+
+        private void SaveTranslateStringButton_Click(object sender, RoutedEventArgs e)
+        {
+            project.Extractor.SaveTranslateStrings();
+        }
+
+        private void MachineTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (StringListBox.SelectedIndex == -1) return;
+
+            var item = StringListBox.Items[StringListBox.SelectedIndex] as TranslateString;
+            item.Machine = MachineTextBox.Text;
+        }
+
+        private void HandTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (StringListBox.SelectedIndex == -1) return;
+
+            var item = StringListBox.Items[StringListBox.SelectedIndex] as TranslateString;
+            item.Hand = HandTextBox.Text;
         }
     }
 }

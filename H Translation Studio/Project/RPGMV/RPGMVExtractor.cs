@@ -46,6 +46,7 @@ namespace HTStudio.Project.RPGMV
                     }
                 }
             }
+            SaveTranslateStrings();
         }
     }
 }
