@@ -164,7 +164,6 @@ namespace HTStudio.Views
             if (StringListBox.SelectedIndex == -1) return;
 
             var item = StringListBox.Items[StringListBox.SelectedIndex] as TranslateString;
-            item.Hand = HandTextBox.Text;
 
             if (item.Hand == "" && HandTextBox.Text != "")
             {
@@ -176,6 +175,8 @@ namespace HTStudio.Views
                 handCount--;
                 UpdateTranslateState();
             }
+
+            item.Hand = HandTextBox.Text;
         }
 
         private void AutoTransButton_Click(object sender, RoutedEventArgs e)
@@ -183,7 +184,7 @@ namespace HTStudio.Views
             new Thread(AutoTrans).Start();
         }
 
-        private void AutoTrans()
+        private void AutoTrans() //EZTransXP Doesn't support multi-threading :/
         {
             StartLongProgress();
             try
