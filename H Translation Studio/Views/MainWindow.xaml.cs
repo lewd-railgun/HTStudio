@@ -121,6 +121,7 @@ namespace HTStudio.Views
             {
                 StringListBox.Items.Add(str);
             }
+            UpdateTranslateState();
         }
 
         private void StringListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -225,6 +226,12 @@ namespace HTStudio.Views
                 UpdateTranslateState();
             }));
             FinishLongProgress();
+        }
+
+        private void ApplyStringButton_Click(object sender, RoutedEventArgs e)
+        {
+            project.Extractor.Apply();
+            MessageBox.Show("적용이 완료되었습니다!");
         }
     }
 }

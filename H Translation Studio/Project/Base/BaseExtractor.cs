@@ -63,6 +63,24 @@ namespace HTStudio.Project.Base
 
         private Dictionary<String, TranslateString> TranslateStringDict { get; } = new Dictionary<String, TranslateString>();
 
+        protected string QueryForTranslate(string original)
+        {
+            if(TranslateStringDict.ContainsKey(original))
+            {
+                var translate = TranslateStringDict[original];
+                if(translate.Hand != "")
+                {
+                    return translate.Hand;
+                }
+                if(translate.Machine != "")
+                {
+                    return translate.Machine;
+                }
+            }
+
+            return original;
+        }
+
         protected void InsertNewTranslateStrings(string original)
         {
             if (original.Trim() == "") return;

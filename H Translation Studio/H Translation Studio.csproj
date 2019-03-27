@@ -92,6 +92,7 @@
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Worker\EZTransXP.cs" />
+    <Compile Include="Worker\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
