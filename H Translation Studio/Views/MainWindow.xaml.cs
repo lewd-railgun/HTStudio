@@ -115,6 +115,7 @@ namespace HTStudio.Views
 
         private void ExtractStringButton_Click(object sender, RoutedEventArgs e)
         {
+            StringListBox.Items.Clear();
             project.Extractor.Extract();
             foreach(TranslateString str in project.Extractor.TranslateStrings)
             {
