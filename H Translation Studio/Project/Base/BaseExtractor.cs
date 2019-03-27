@@ -55,7 +55,7 @@ namespace HTStudio.Project.Base
 
         }
 
-        public virtual void Apply(List<TranslateString> translateStrings)
+        public virtual void Apply()
         {
 
         }
