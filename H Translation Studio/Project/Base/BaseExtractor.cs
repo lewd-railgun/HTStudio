@@ -20,7 +20,11 @@ namespace HTStudio.Project.Base
 
             if( File.Exists( Path.Combine(path, "HTStr.json") ) )
             {
-                translateStrings = JsonConvert.DeserializeObject<List<TranslateString>>( File.ReadAllText(Path.Combine(path, "HTStr.json")) );
+                TranslateStrings = JsonConvert.DeserializeObject<List<TranslateString>>( File.ReadAllText(Path.Combine(path, "HTStr.json")) );
+                foreach(var ts in TranslateStrings)
+                {
+                    TranslateStringDict[ts.Original] = ts;
+                }
             }
         }
 
@@ -55,18 +59,17 @@ namespace HTStudio.Project.Base
         {
 
         }
+        public List<TranslateString> TranslateStrings { get; } = new List<TranslateString>();
 
-        private List<TranslateString> translateStrings = new List<TranslateString>();
-        public List<TranslateString> TranslateStrings {
-            get {
-                return translateStrings;
-            }
-        }
+        private Dictionary<String, TranslateString> TranslateStringDict { get; } = new Dictionary<String, TranslateString>();
 
         protected void InsertNewTranslateStrings(string original)
         {
             if (original.Trim() == "") return;
-            translateStrings.Add(new TranslateString() { Original = original, Hand = "", Machine = "" });
+            if (TranslateStringDict.ContainsKey(original)) return;
+            var ts = new TranslateString() { Original = original, Hand = "", Machine = "" };
+            TranslateStrings.Add(ts);
+            TranslateStringDict[original] = ts;
         }
 
         public void SaveTranslateStrings()

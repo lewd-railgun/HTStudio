@@ -22,6 +22,7 @@ namespace HTStudio.Project.RPGMV
         public override void Extract()
         {
             TranslateStrings.Clear();
+
             //COMMON EVENT
             JArray events = JArray.Parse(File.ReadAllText(Path.Combine(path, "www/data/CommonEvents.json")));
 
@@ -34,16 +35,37 @@ namespace HTStudio.Project.RPGMV
                 InsertNewTranslateStrings(name);
 
                 JArray commands = data["list"] as JArray;
-                foreach (JToken command in commands) {
+                int i = 0;
+                while (i < commands.Count) {
+                    JToken command = commands[i];
                     int code = command["code"].ToObject<int>();
 
-                    if(code == 401 || code == 402) //대사 텍스트
+                    //모든 텍스트 데이터 읽기
+                    if(code == 101 || code == 102) //대사 명령
                     {
-                        foreach(JToken str in command["parameters"])
+                        i++;
+                        StringBuilder builder = new StringBuilder();
+                        while (true)
                         {
-                            InsertNewTranslateStrings(str.ToString());
+                            JToken textData = commands[i];
+                            int textDataCode = textData["code"].ToObject<int>();
+                            if (textDataCode != 401 && textDataCode != 402)
+                            {
+                                break;
+                            }
+                            foreach (JToken str in commands[i]["parameters"])
+                            {
+                                builder.Append(str.ToString());
+                                builder.Append("\r\n");
+                            }
+                            i++;
                         }
+                        builder.Remove(builder.Length - 2, 2);
+                        InsertNewTranslateStrings(builder.ToString().Trim());
+                        continue;
                     }
+
+                    i++;
                 }
             }
             SaveTranslateStrings();

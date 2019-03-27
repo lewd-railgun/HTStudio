@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HTStudio.Views"
         mc:Ignorable="d"
-        Title="HT Studio" Height="450" Width="728.907">
+        Title="HT Studio" Height="468.907" Width="732.688">
     <Grid>
         <TextBlock x:Name="WorkingTextBlock" Margin="10,10,10,0" TextWrapping="Wrap" Text="작업중이 아님" VerticalAlignment="Top"/>
         <TextBlock x:Name="ProjectTypeTextBlock" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="프로젝트 타입: 알 수 없음" VerticalAlignment="Top" Width="701"/>
@@ -14,10 +14,10 @@
             <Grid>
                 <Button x:Name="ExtractStringButton" Content="문자열 추출" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ExtractStringButton_Click"/>
                 <Button x:Name="ApplyStringButton" Content="문자열 적용" HorizontalAlignment="Left" Margin="604,10,0,0" VerticalAlignment="Top" Width="75"/>
-                <Button x:Name="AutoTransButton" Content="ezTransXP" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75"/>
+                <Button x:Name="AutoTransButton" Content="ezTransXP" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" Click="AutoTransButton_Click"/>
             </Grid>
         </GroupBox>
-        <ListBox x:Name="StringListBox" Margin="10,140,515,10" SelectionChanged="StringListBox_SelectionChanged"/>
+        <ListBox x:Name="StringListBox" Margin="10,140,515,29" SelectionChanged="StringListBox_SelectionChanged"/>
         <Label Content="원문" HorizontalAlignment="Right" Margin="0,144,476,0" VerticalAlignment="Top"/>
         <TextBox x:Name="OriginalTextBox" HorizontalAlignment="Right" Height="72" Margin="0,144,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="454"/>
         <Label Content="기계번역" HorizontalAlignment="Right" Margin="0,221,476,0" VerticalAlignment="Top" Height="26" Width="34"/>
@@ -27,6 +27,7 @@
         <Button x:Name="PrevStringButton" Content="이전줄" HorizontalAlignment="Right" Height="24" Margin="0,385,427,0" VerticalAlignment="Top" Width="81"/>
         <Button x:Name="NextStringButton" Content="다음줄" HorizontalAlignment="Right" Height="24" Margin="0,385,341,0" VerticalAlignment="Top" Width="81"/>
         <Button x:Name="NeedWorkStringButton" Content="작업이 필요한 문자열" HorizontalAlignment="Right" Height="24" Margin="0,385,207,0" VerticalAlignment="Top" Width="129"/>
-        <Button x:Name="SaveTranslateStringButton" Content="작업상황저장" HorizontalAlignment="Left" Margin="597,385,0,0" VerticalAlignment="Top" Width="114" Height="24" Click="SaveTranslateStringButton_Click"/>
+        <Button x:Name="SaveTranslateStringButton" Content="작업상황저장" Margin="0,385,10,0" Click="SaveTranslateStringButton_Click" HorizontalAlignment="Right" Width="118" Height="24" VerticalAlignment="Top"/>
+        <TextBlock x:Name="ProgressTextBlock" Margin="10,0,10,8" TextWrapping="Wrap" Text="대기" Height="16" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

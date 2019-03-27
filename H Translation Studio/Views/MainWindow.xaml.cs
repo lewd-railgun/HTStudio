@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using Path = System.IO.Path;
 using HTStudio.Project.Base;
 using HTStudio.Container;
+using HTStudio.Worker;
+using System.Threading;
 
 namespace HTStudio.Views
 {
@@ -23,9 +25,60 @@ namespace HTStudio.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        private void StartLongProgress()
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                IsEnabled = false;
+                ProgressTextBlock.Text = "작업 초기화...";
+            }));
+        }
+
+        private void UpdateLongProgressMessage(string text)
+        {
+            ProgressTextBlock.Dispatcher.Invoke(new Action(() =>
+            {
+                ProgressTextBlock.Text = text;
+            }));
+        }
+
+        private void FinishLongProgress()
+        {
+            Dispatcher.Invoke(new Action(() =>
+            {
+                IsEnabled = true;
+                ProgressTextBlock.Text = "대기";
+            }));
+        }
+
         private string workingDirectory;
 
         private BaseProject project;
+
+        private long machineCount;
+        private long handCount;
+
+        public void UpdateTranslateState(bool refresh = false)
+        {
+            if(refresh)
+            {
+                machineCount = 0;
+                handCount = 0;
+                foreach (TranslateString str in StringListBox.Items)
+                {
+                    if (str.Machine.Trim() != "")
+                    {
+                        machineCount++;
+                    }
+
+                    if (str.Hand.Trim() != "")
+                    {
+                        handCount++;
+                    }
+                }
+            }
+            TranslationStatusTextBlock.Text = "원본/번역기/손번역 상태 : " + StringListBox.Items.Count + "/" + machineCount + "/" + handCount;
+        }
 
         public void startWorkWith(string directory)
         {
@@ -42,7 +95,17 @@ namespace HTStudio.Views
             foreach (TranslateString str in project.Extractor.TranslateStrings)
             {
                 StringListBox.Items.Add(str);
+                if(str.Machine.Trim() != "")
+                {
+                    machineCount++;
+                }
+
+                if(str.Hand.Trim() != "")
+                {
+                    handCount++;
+                }
             }
+            UpdateTranslateState();
         }
 
         public MainWindow()
@@ -80,7 +143,20 @@ namespace HTStudio.Views
             if (StringListBox.SelectedIndex == -1) return;
 
             var item = StringListBox.Items[StringListBox.SelectedIndex] as TranslateString;
+
+            if(item.Machine == "" && MachineTextBox.Text != "")
+            {
+                machineCount++;
+                UpdateTranslateState();
+            }
+            else if(item.Machine != "" && MachineTextBox.Text == "")
+            {
+                machineCount--;
+                UpdateTranslateState();
+            }
+
             item.Machine = MachineTextBox.Text;
+
         }
 
         private void HandTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -89,6 +165,64 @@ namespace HTStudio.Views
 
             var item = StringListBox.Items[StringListBox.SelectedIndex] as TranslateString;
             item.Hand = HandTextBox.Text;
+
+            if (item.Hand == "" && HandTextBox.Text != "")
+            {
+                handCount++;
+                UpdateTranslateState();
+            }
+            else if (item.Hand != "" && HandTextBox.Text == "")
+            {
+                handCount--;
+                UpdateTranslateState();
+            }
+        }
+
+        private void AutoTransButton_Click(object sender, RoutedEventArgs e)
+        {
+            new Thread(AutoTrans).Start();
+        }
+
+        private void AutoTrans()
+        {
+            StartLongProgress();
+            try
+            {
+                UpdateLongProgressMessage("EZTransXP 모듈 초기화...");
+                if (!EZTransXP.IsInited)
+                    EZTransXP.Init();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                FinishLongProgress();
+                return;
+            }
+
+            machineCount = 0;
+            long lastUpdate = DateTimeOffset.Now.ToUnixTimeMilliseconds() - 500;
+            for (int i = 0; i < StringListBox.Items.Count; i++)
+            {
+                TranslateString str = StringListBox.Items[i] as TranslateString;
+                try
+                {
+                    if (lastUpdate + 500 < DateTimeOffset.Now.ToUnixTimeMilliseconds()) {
+                        UpdateLongProgressMessage("번역중 " + i + "/" + StringListBox.Items.Count);
+                        lastUpdate = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                    }
+                    str.Machine = EZTransXP.TranslateJ2K(str.Original);
+                    machineCount++;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
+            }
+            Dispatcher.Invoke(new Action(() =>
+            {
+                UpdateTranslateState();
+            }));
+            FinishLongProgress();
         }
     }
 }
