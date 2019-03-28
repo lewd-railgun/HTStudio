@@ -353,7 +353,7 @@ namespace HTStudio.Project.RPGMV
 
         public override void Backup()
         {
-            var dataPath = Path.Combine(ProjectPath, "www/data");
+            var dataPath = Path.Combine(project.path, "www/data");
             Utils.DirectoryCopy(dataPath, Path.Combine(project.BackupPath, "www/data"), true);
         }
 
