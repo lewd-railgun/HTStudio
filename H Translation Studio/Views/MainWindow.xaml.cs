@@ -183,6 +183,14 @@ namespace HTStudio.Views
 
         private void AutoTransButton_Click(object sender, RoutedEventArgs e)
         {
+            if( MessageBox.Show("저장된 기계 번역을 전부 초기화하고 처음부터 다시합니까?", "HT Studio", MessageBoxButton.YesNo) == MessageBoxResult.Yes )
+            {
+                foreach(var translateString in project.Extractor.TranslateStrings)
+                {
+                    translateString.Machine = "";
+                }
+            }
+
             new Thread(AutoTrans).Start();
         }
 
@@ -207,6 +215,7 @@ namespace HTStudio.Views
             for (int i = 0; i < StringListBox.Items.Count; i++)
             {
                 TranslateString str = StringListBox.Items[i] as TranslateString;
+                if (str.Machine != "") continue;
                 try
                 {
                     if (lastUpdate + 500 < DateTimeOffset.Now.ToUnixTimeMilliseconds()) {
