@@ -15,6 +15,8 @@
                 <Button x:Name="ExtractStringButton" Content="문자열 추출" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ExtractStringButton_Click"/>
                 <Button x:Name="ApplyStringButton" Content="문자열 적용" HorizontalAlignment="Left" Margin="604,10,0,0" VerticalAlignment="Top" Width="75" Click="ApplyStringButton_Click"/>
                 <Button x:Name="AutoTransButton" Content="ezTransXP" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" Click="AutoTransButton_Click"/>
+                <Button x:Name="ExtractorOptionButton" Content="추출기 옵션" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="88" Click="ExtractorOptionButton_Click"/>
+                <Button x:Name="RestoreOriginalButton" Content="원본 복구" HorizontalAlignment="Left" Margin="524,10,0,0" VerticalAlignment="Top" Width="75" Click="RestoreOriginalButton_Click"/>
             </Grid>
         </GroupBox>
         <ListBox x:Name="StringListBox" Margin="10,140,515,29" SelectionChanged="StringListBox_SelectionChanged"/>

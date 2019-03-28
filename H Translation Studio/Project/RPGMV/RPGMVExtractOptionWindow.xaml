@@ -1,0 +1,23 @@
+﻿<Window x:Class="HTStudio.Project.RPGMV.RPGMVExtractOptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HTStudio.Project.RPGMV"
+        mc:Ignorable="d"
+        Title="RPG MV 추출 옵션" Height="222.353" Width="587.479">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="123*"/>
+            <ColumnDefinition Width="70*"/>
+        </Grid.ColumnDefinitions>
+        <CheckBox x:Name="ExtractEventTextCheckBox" Content="이벤트 대사 추출" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractEventScriptCheckBox" Content="이벤트 스크립트 추출" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractCommonEventCheckBox" Content="커먼 이벤트 추출" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractMapEventCheckBox" Content="맵 이벤트 추출" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractJsonDataCheckBox" Content="일반 JSON 데이터 추출" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractSystemCheckBox" Content="시스템 데이터 추출" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,130,0,0" TextWrapping="Wrap" Text="창을 닫으면 설정이 저장됩니다&#x0a;스크립트 기능을 제외하고, 대부분의 경우 게임을 고장내지 않습니다&#x0a;스크립트 추출 기능은 굉장히 실험적이며, 사용했을때 문제가 생긴다면 체크를 해제하세요." VerticalAlignment="Top" Height="57" Width="559" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

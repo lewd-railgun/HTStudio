@@ -72,6 +72,11 @@ namespace HTStudio.Project.Base
 
         }
 
+        public virtual void Restore()
+        {
+
+        }
+
         public virtual void Apply()
         {
 

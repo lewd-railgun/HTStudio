@@ -91,6 +91,7 @@ namespace HTStudio.Views
 
             ExtractStringButton.IsEnabled = project.Extractor.SupportExtract;
             ApplyStringButton.IsEnabled = project.Extractor.SupportApply;
+            ExtractorOptionButton.IsEnabled = project.Extractor.HasWindow;
 
             foreach (TranslateString str in project.Extractor.TranslateStrings)
             {
@@ -106,6 +107,8 @@ namespace HTStudio.Views
                 }
             }
             UpdateTranslateState();
+
+
         }
 
         public MainWindow()
@@ -240,6 +243,17 @@ namespace HTStudio.Views
         {
             project.Extractor.Apply();
             MessageBox.Show("적용이 완료되었습니다!");
+        }
+
+        private void ExtractorOptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            project.Extractor.CreateWindow().ShowDialog();
+        }
+
+        private void RestoreOriginalButton_Click(object sender, RoutedEventArgs e)
+        {
+            project.Extractor.Restore();
+            MessageBox.Show("원본 복구가 완료되었습니다!");
         }
     }
 }

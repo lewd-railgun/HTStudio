@@ -10,11 +10,49 @@ using Newtonsoft.Json.Linq;
 using HTStudio.Container;
 using System.Text.RegularExpressions;
 using HTStudio.Worker;
+using System.Windows;
 
 namespace HTStudio.Project.RPGMV
 {
     public class RPGMVExtractor : BaseExtractor
     {
+        //옵션 설정용
+
+        #region Option
+
+        /// <summary>
+        /// 이벤트에서 대사를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractEventText = true;
+
+        /// <summary>
+        /// 이벤트에서 스크립트를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractEventScript = false;
+
+        /// <summary>
+        /// 커먼 이벤트를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractCommonEvent = true;
+
+        /// <summary>
+        /// 맵 이벤트를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractMapEvent = true;
+
+        /// <summary>
+        /// 일반 JSON 데이터 방식의 데이터를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractJsonData = true;
+
+        /// <summary>
+        /// 시스템 데이터를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractSystemData = true;
+
+        #endregion
+
+
         private readonly Regex ScriptStringExtractor = new Regex(@"""[^""\\]*(?:\\.[^""\\]*)*""");
 
         public RPGMVExtractor(BaseProject project) : base(project)
@@ -22,6 +60,11 @@ namespace HTStudio.Project.RPGMV
             if (!Directory.Exists(project.BackupPath))
             {
                 Backup();
+            }
+
+            if( File.Exists(Path.Combine(project.ProjectPath, "RPGMVExtractorOption.json")))
+            {
+
             }
         }
 
@@ -112,7 +155,7 @@ namespace HTStudio.Project.RPGMV
                 int code = command["code"].ToObject<int>();
 
                 //모든 텍스트 데이터 읽기
-                if (code == 101) //대사 명령
+                if (code == 101 && ExtractEventText) //대사 명령
                 {
                     i++;
                     int startInx = i;
@@ -173,11 +216,11 @@ namespace HTStudio.Project.RPGMV
 
                     continue;
                 }
-                else if (code == 102) //선택지
+                else if (code == 102 && ExtractEventText) //선택지
                 {
                     WorkJArray(isApply, command["parameters"][0] as JArray);
                 }
-                else if (code == 355) //Script
+                else if (code == 355 && ExtractEventScript) //Script
                 {
                     int startInx = i; //스크립트 구문은 본문도 데이터를 포함하고 있기 때문에 같이 고쳐야함!
                     i++;
@@ -260,89 +303,103 @@ namespace HTStudio.Project.RPGMV
             var backupDataPath = Path.Combine(project.BackupPath, "www/data");
             var applyDataPath = Path.Combine(project.path, "www/data");
 
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "Actors.json"), Path.Combine(applyDataPath, "Actors.json"), "name");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "Armors.json"), Path.Combine(applyDataPath, "Armors.json"), "name", "description");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "Enemies.json"), Path.Combine(applyDataPath, "Enemies.json"), "name");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "Items.json"), Path.Combine(applyDataPath, "Items.json"), "name", "description");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "MapInfos.json"), Path.Combine(applyDataPath, "MapInfos.json"), "name");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "Skills.json"), Path.Combine(applyDataPath, "Skills.json"), "name", "description");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "States.json"), Path.Combine(applyDataPath, "States.json"), "name", "message1", "message2", "message3", "message4");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "Troops.json"), Path.Combine(applyDataPath, "Troops.json"), "name");
-            WorkJsonData(isApply, Path.Combine(backupDataPath, "Weapons.json"), Path.Combine(applyDataPath, "Weapons.json"), "name", "description");
+            if (ExtractJsonData)
+            {
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "Actors.json"), Path.Combine(applyDataPath, "Actors.json"), "name");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "Armors.json"), Path.Combine(applyDataPath, "Armors.json"), "name", "description");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "Enemies.json"), Path.Combine(applyDataPath, "Enemies.json"), "name");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "Items.json"), Path.Combine(applyDataPath, "Items.json"), "name", "description");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "MapInfos.json"), Path.Combine(applyDataPath, "MapInfos.json"), "name");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "Skills.json"), Path.Combine(applyDataPath, "Skills.json"), "name", "description");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "States.json"), Path.Combine(applyDataPath, "States.json"), "name", "message1", "message2", "message3", "message4");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "Troops.json"), Path.Combine(applyDataPath, "Troops.json"), "name");
+                WorkJsonData(isApply, Path.Combine(backupDataPath, "Weapons.json"), Path.Combine(applyDataPath, "Weapons.json"), "name", "description");
+            }
 
             //COMMON EVENT
-            var commonEvents = JArray.Parse(File.ReadAllText(Path.Combine(backupDataPath, "CommonEvents.json")));
-            foreach(var commonEvent in commonEvents)
+            if (ExtractCommonEvent)
             {
-                if (commonEvent == null || commonEvent is JValue) continue;
-                WorkSingleString(isApply, commonEvent, "name");
-                WorkCommands(isApply, commonEvent["list"] as JArray);
-            }
-            if(isApply)
-            {
-                SaveJson(Path.Combine(applyDataPath, "CommonEvents.json"), commonEvents);
-            }
-
-            //MAP
-            foreach (var path in Directory.GetFiles(backupDataPath))
-            {
-                var lowerName = Path.GetFileName(path).ToLower();
-                if (lowerName.StartsWith("map") && !lowerName.StartsWith("mapinfos"))
+                var commonEvents = JArray.Parse(File.ReadAllText(Path.Combine(backupDataPath, "CommonEvents.json")));
+                foreach (var commonEvent in commonEvents)
                 {
-                    var map = JObject.Parse(File.ReadAllText(path));
-                    foreach (JToken data in map["events"])
-                    {
-                        //빈 데이터 방지
-                        if (data == null || data is JValue) continue;
+                    if (commonEvent == null || commonEvent is JValue) continue;
+                    WorkSingleString(isApply, commonEvent, "name");
+                    WorkCommands(isApply, commonEvent["list"] as JArray);
+                }
+                if (isApply)
+                {
+                    SaveJson(Path.Combine(applyDataPath, "CommonEvents.json"), commonEvents);
+                }
+            }
 
-                        WorkSingleString(isApply, data, "name");
-                        foreach (var page in data["pages"])
+            if (ExtractMapEvent)
+            {
+                //MAP
+                foreach (var path in Directory.GetFiles(backupDataPath))
+                {
+                    var lowerName = Path.GetFileName(path).ToLower();
+                    if (lowerName.StartsWith("map") && !lowerName.StartsWith("mapinfos"))
+                    {
+                        var map = JObject.Parse(File.ReadAllText(path));
+                        foreach (JToken data in map["events"])
                         {
-                            WorkCommands(isApply, page["list"] as JArray);
-                        }
-                    }
+                            //빈 데이터 방지
+                            if (data == null || data is JValue) continue;
 
-                    if(isApply)
-                    {
-                        SaveJson( Path.Combine(applyDataPath, Path.GetFileName(path)), map);
+                            WorkSingleString(isApply, data, "name");
+                            foreach (var page in data["pages"])
+                            {
+                                WorkCommands(isApply, page["list"] as JArray);
+                            }
+                        }
+
+                        if (isApply)
+                        {
+                            SaveJson(Path.Combine(applyDataPath, Path.GetFileName(path)), map);
+                        }
                     }
                 }
             }
 
-            //SYSTEM DATA
-            JObject system = JObject.Parse(File.ReadAllText(Path.Combine(backupDataPath, "System.json")));
-            WorkJArray(isApply, system["armorTypes"] as JArray);
-            WorkJArray(isApply, system["elements"] as JArray);
-            WorkJArray(isApply, system["equipTypes"] as JArray);
-            WorkJArray(isApply, system["skillTypes"] as JArray);
-            WorkJArray(isApply, system["switches"] as JArray);
-            WorkJArray(isApply, system["variables"] as JArray);
-            WorkJArray(isApply, system["weaponTypes"] as JArray);
-
-            var terms = system["terms"];
-            WorkJArray(isApply, terms["basic"] as JArray);
-            WorkJArray(isApply, terms["commands"] as JArray);
-            WorkJArray(isApply, terms["params"] as JArray);
-
-            foreach (var item in (terms["messages"] as JObject).Properties())
+            if (ExtractSystemData)
             {
-                WorkSingleString(isApply, terms["messages"], item.Name);
-            }
+                //SYSTEM DATA
+                JObject system = JObject.Parse(File.ReadAllText(Path.Combine(backupDataPath, "System.json")));
+                WorkJArray(isApply, system["armorTypes"] as JArray);
+                WorkJArray(isApply, system["elements"] as JArray);
+                WorkJArray(isApply, system["equipTypes"] as JArray);
+                WorkJArray(isApply, system["skillTypes"] as JArray);
+                WorkJArray(isApply, system["switches"] as JArray);
+                WorkJArray(isApply, system["variables"] as JArray);
+                WorkJArray(isApply, system["weaponTypes"] as JArray);
 
-            WorkSingleString(isApply, system, "currencyUnit");
-            WorkSingleString(isApply, system, "gameTitle");
-            WorkSingleString(isApply, system, "title1Name");
-            WorkSingleString(isApply, system, "title2Name");
+                var terms = system["terms"];
+                WorkJArray(isApply, terms["basic"] as JArray);
+                WorkJArray(isApply, terms["commands"] as JArray);
+                WorkJArray(isApply, terms["params"] as JArray);
 
-            if (isApply)
-            {
-                SaveJson(Path.Combine(applyDataPath, "System.json"), system);
+                foreach (var item in (terms["messages"] as JObject).Properties())
+                {
+                    WorkSingleString(isApply, terms["messages"], item.Name);
+                }
+
+                WorkSingleString(isApply, system, "currencyUnit");
+                WorkSingleString(isApply, system, "gameTitle");
+                WorkSingleString(isApply, system, "title1Name");
+                WorkSingleString(isApply, system, "title2Name");
+
+                if (isApply)
+                {
+                    SaveJson(Path.Combine(applyDataPath, "System.json"), system);
+                }
             }
         }
         
         public override bool SupportExtract => true;
 
         public override bool SupportApply => true;
+
+        public override bool HasWindow => true;
 
         public override void Extract()
         {
@@ -357,10 +414,25 @@ namespace HTStudio.Project.RPGMV
             Utils.DirectoryCopy(dataPath, Path.Combine(project.BackupPath, "www/data"), true);
         }
 
+        public override void Restore()
+        {
+            var dataPath = Path.Combine(project.path, "www/data");
+            Utils.DirectoryCopy(Path.Combine(project.BackupPath, "www/data"), dataPath, true, true);
+        }
+
         public override void Apply()
         {
             Work(true);
 
+        }
+
+
+
+        public override Window CreateWindow()
+        {
+            var window = new RPGMVExtractOptionWindow();
+            window.Extractor = this;
+            return window;
         }
     }
 }

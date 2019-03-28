@@ -16,7 +16,7 @@ namespace HTStudio.Worker
             return japaneseFinder.IsMatch(word);
         }
 
-        public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool overwhite = false)
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
@@ -40,7 +40,7 @@ namespace HTStudio.Worker
             foreach (FileInfo file in files)
             {
                 string temppath = Path.Combine(destDirName, file.Name);
-                file.CopyTo(temppath, false);
+                file.CopyTo(temppath, overwhite);
             }
 
             // If copying subdirectories, copy them and their contents to new location.

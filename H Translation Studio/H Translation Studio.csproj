@@ -83,6 +83,9 @@
     <Compile Include="Container\TranslateString.cs" />
     <Compile Include="Project\Base\BaseExtractor.cs" />
     <Compile Include="Project\Base\BaseProject.cs" />
+    <Compile Include="Project\RPGMV\RPGMVExtractOptionWindow.xaml.cs">
+      <DependentUpon>RPGMVExtractOptionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Project\RPGMV\RPGMVExtractor.cs" />
     <Compile Include="Project\RPGMV\RPGMVProject.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
@@ -122,6 +125,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Project\RPGMV\RPGMVExtractOptionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
