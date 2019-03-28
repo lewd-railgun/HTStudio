@@ -209,8 +209,7 @@ namespace HTStudio.Views
                 FinishLongProgress();
                 return;
             }
-
-            machineCount = 0;
+            
             long lastUpdate = DateTimeOffset.Now.ToUnixTimeMilliseconds() - 500;
             for (int i = 0; i < StringListBox.Items.Count; i++)
             {
@@ -232,7 +231,7 @@ namespace HTStudio.Views
             }
             Dispatcher.Invoke(new Action(() =>
             {
-                UpdateTranslateState();
+                UpdateTranslateState(true);
             }));
             FinishLongProgress();
         }
