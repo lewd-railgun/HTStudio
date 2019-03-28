@@ -12,7 +12,7 @@ namespace HTStudio.Project.RPGMV
     {
         public RPGMVProject(string path) : base(path)
         {
-            extractor = new RPGMVExtractor(path);
+            extractor = new RPGMVExtractor(this);
         }
 
         private RPGMVExtractor extractor;

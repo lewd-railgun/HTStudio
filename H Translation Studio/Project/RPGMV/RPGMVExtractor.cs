@@ -17,8 +17,12 @@ namespace HTStudio.Project.RPGMV
     {
         private readonly Regex ScriptStringExtractor = new Regex(@"""[^""\\]*(?:\\.[^""\\]*)*""");
 
-        public RPGMVExtractor(string path) : base(path)
+        public RPGMVExtractor(BaseProject project) : base(project)
         {
+            if (!Directory.Exists(project.BackupPath))
+            {
+                Backup();
+            }
         }
 
         private void SaveJson(string path, object data)
@@ -26,7 +30,7 @@ namespace HTStudio.Project.RPGMV
             File.WriteAllText(path, JsonConvert.SerializeObject(data));
         }
 
-        private void WorkJsonData(bool isApply, string path, params string[] extracts)
+        private void WorkJsonData(bool isApply, string path, string applyPath, params string[] extracts)
         {
             JArray datas = JArray.Parse(File.ReadAllText(path));
             foreach (JToken data in datas)
@@ -49,7 +53,7 @@ namespace HTStudio.Project.RPGMV
             
             if(isApply)
             {
-                SaveJson(path, datas);
+                SaveJson(applyPath, datas);
             }
         }
 
@@ -249,20 +253,21 @@ namespace HTStudio.Project.RPGMV
 
         private void Work(bool isApply)
         {
-            var dataPath = Path.Combine(path, "www/data");
+            var backupDataPath = Path.Combine(project.BackupPath, "www/data");
+            var applyDataPath = Path.Combine(project.path, "www/data");
 
-            WorkJsonData(isApply, Path.Combine(dataPath, "Actors.json"), "name");
-            WorkJsonData(isApply, Path.Combine(dataPath, "Armors.json"), "name", "description");
-            WorkJsonData(isApply, Path.Combine(dataPath, "Enemies.json"), "name");
-            WorkJsonData(isApply, Path.Combine(dataPath, "Items.json"), "name", "description");
-            WorkJsonData(isApply, Path.Combine(dataPath, "MapInfos.json"), "name");
-            WorkJsonData(isApply, Path.Combine(dataPath, "Skills.json"), "name", "description");
-            WorkJsonData(isApply, Path.Combine(dataPath, "States.json"), "name", "message1", "message2", "message3", "message4");
-            WorkJsonData(isApply, Path.Combine(dataPath, "Troops.json"), "name");
-            WorkJsonData(isApply, Path.Combine(dataPath, "Weapons.json"), "name", "description");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "Actors.json"), Path.Combine(applyDataPath, "Actors.json"), "name");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "Armors.json"), Path.Combine(applyDataPath, "Armors.json"), "name", "description");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "Enemies.json"), Path.Combine(applyDataPath, "Enemies.json"), "name");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "Items.json"), Path.Combine(applyDataPath, "Items.json"), "name", "description");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "MapInfos.json"), Path.Combine(applyDataPath, "MapInfos.json"), "name");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "Skills.json"), Path.Combine(applyDataPath, "Skills.json"), "name", "description");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "States.json"), Path.Combine(applyDataPath, "States.json"), "name", "message1", "message2", "message3", "message4");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "Troops.json"), Path.Combine(applyDataPath, "Troops.json"), "name");
+            WorkJsonData(isApply, Path.Combine(backupDataPath, "Weapons.json"), Path.Combine(applyDataPath, "Weapons.json"), "name", "description");
 
             //COMMON EVENT
-            var commonEvents = JArray.Parse(File.ReadAllText(Path.Combine(dataPath, "CommonEvents.json")));
+            var commonEvents = JArray.Parse(File.ReadAllText(Path.Combine(backupDataPath, "CommonEvents.json")));
             foreach(var commonEvent in commonEvents)
             {
                 if (commonEvent == null || commonEvent is JValue) continue;
@@ -271,11 +276,11 @@ namespace HTStudio.Project.RPGMV
             }
             if(isApply)
             {
-                SaveJson(Path.Combine(dataPath, "CommonEvents.json"), commonEvents);
+                SaveJson(Path.Combine(applyDataPath, "CommonEvents.json"), commonEvents);
             }
 
             //MAP
-            foreach (var path in Directory.GetFiles(dataPath))
+            foreach (var path in Directory.GetFiles(backupDataPath))
             {
                 var lowerName = Path.GetFileName(path).ToLower();
                 if (lowerName.StartsWith("map") && !lowerName.StartsWith("mapinfos"))
@@ -295,13 +300,13 @@ namespace HTStudio.Project.RPGMV
 
                     if(isApply)
                     {
-                        SaveJson(path, map);
+                        SaveJson( Path.Combine(applyDataPath, Path.GetFileName(path)), map);
                     }
                 }
             }
 
             //SYSTEM DATA
-            JObject system = JObject.Parse(File.ReadAllText(Path.Combine(dataPath, "System.json")));
+            JObject system = JObject.Parse(File.ReadAllText(Path.Combine(backupDataPath, "System.json")));
             WorkJArray(isApply, system["armorTypes"] as JArray);
             WorkJArray(isApply, system["elements"] as JArray);
             WorkJArray(isApply, system["equipTypes"] as JArray);
@@ -327,7 +332,7 @@ namespace HTStudio.Project.RPGMV
 
             if (isApply)
             {
-                SaveJson(Path.Combine(dataPath, "System.json"), system);
+                SaveJson(Path.Combine(applyDataPath, "System.json"), system);
             }
         }
         
@@ -342,6 +347,12 @@ namespace HTStudio.Project.RPGMV
             Work(false);
 
             SaveTranslateStrings();
+        }
+
+        public override void Backup()
+        {
+            var dataPath = Path.Combine(ProjectPath, "www/data");
+            Utils.DirectoryCopy(dataPath, Path.Combine(project.BackupPath, "www/data"), true);
         }
 
         public override void Apply()

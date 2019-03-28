@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace HTStudio.Project.Base
 {
@@ -10,11 +11,25 @@ namespace HTStudio.Project.Base
     public class BaseProject
     {
         public string path;
+
+        public string ProjectPath {
+            get {
+                return Path.Combine(path, ".HTStudio");
+            }
+        }
+
+        public string BackupPath {
+            get {
+                return Path.Combine(ProjectPath, "Backup");
+            }
+        }
         
         public BaseProject(string path)
         {
             this.path = path;
-            baseExtractor = new BaseExtractor(path);
+            baseExtractor = new BaseExtractor(this);
+
+            Directory.CreateDirectory(ProjectPath);
         }
 
         public static BaseProject IdentificationProject(string path)

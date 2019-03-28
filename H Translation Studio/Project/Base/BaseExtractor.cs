@@ -12,15 +12,27 @@ namespace HTStudio.Project.Base
 {
     public class BaseExtractor
     {
-        public string path;
+        public BaseProject project;
 
-        public BaseExtractor(string path)
+        public string ProjectPath {
+            get {
+                return project.ProjectPath;
+            }
+        }
+
+        private string StringsPath {
+            get {
+                return Path.Combine(ProjectPath, "TranslateStrings.json");
+            }
+        }
+
+        public BaseExtractor(BaseProject project)
         {
-            this.path = path;
+            this.project = project;
 
-            if( File.Exists( Path.Combine(path, "HTStr.json") ) )
+            if(File.Exists(StringsPath))
             {
-                TranslateStrings = JsonConvert.DeserializeObject<List<TranslateString>>( File.ReadAllText(Path.Combine(path, "HTStr.json")) );
+                TranslateStrings = JsonConvert.DeserializeObject<List<TranslateString>>(File.ReadAllText(StringsPath) );
                 foreach(var ts in TranslateStrings)
                 {
                     TranslateStringDict[ts.Original] = ts;
@@ -55,10 +67,16 @@ namespace HTStudio.Project.Base
 
         }
 
+        public virtual void Backup()
+        {
+
+        }
+
         public virtual void Apply()
         {
 
         }
+        
         public List<TranslateString> TranslateStrings { get; } = new List<TranslateString>();
 
         private Dictionary<String, TranslateString> TranslateStringDict { get; } = new Dictionary<String, TranslateString>();
@@ -92,7 +110,7 @@ namespace HTStudio.Project.Base
 
         public void SaveTranslateStrings()
         {
-            File.WriteAllText(Path.Combine(path, "HTStr.json"), JsonConvert.SerializeObject(TranslateStrings));
+            File.WriteAllText(System.IO.Path.Combine(ProjectPath, "HTStr.json"), JsonConvert.SerializeObject(TranslateStrings));
         }
     }
 }
