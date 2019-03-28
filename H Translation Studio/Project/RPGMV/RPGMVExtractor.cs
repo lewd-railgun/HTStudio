@@ -323,7 +323,7 @@ namespace HTStudio.Project.RPGMV
                 foreach (var commonEvent in commonEvents)
                 {
                     if (commonEvent == null || commonEvent is JValue) continue;
-                    WorkSingleString(isApply, commonEvent, "name");
+                    //WorkSingleString(isApply, commonEvent, "name");
                     WorkCommands(isApply, commonEvent["list"] as JArray);
                 }
                 if (isApply)
@@ -346,7 +346,7 @@ namespace HTStudio.Project.RPGMV
                             //빈 데이터 방지
                             if (data == null || data is JValue) continue;
 
-                            WorkSingleString(isApply, data, "name");
+                            //WorkSingleString(isApply, data, "name");
                             foreach (var page in data["pages"])
                             {
                                 WorkCommands(isApply, page["list"] as JArray);
