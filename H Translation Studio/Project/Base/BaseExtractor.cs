@@ -110,7 +110,7 @@ namespace HTStudio.Project.Base
 
         public void SaveTranslateStrings()
         {
-            File.WriteAllText(System.IO.Path.Combine(ProjectPath, "HTStr.json"), JsonConvert.SerializeObject(TranslateStrings));
+            File.WriteAllText(StringsPath, JsonConvert.SerializeObject(TranslateStrings));
         }
     }
 }
