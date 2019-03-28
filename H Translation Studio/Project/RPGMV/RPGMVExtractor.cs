@@ -41,9 +41,49 @@ namespace HTStudio.Project.RPGMV
         internal bool ExtractMapEvent = true;
 
         /// <summary>
-        /// 일반 JSON 데이터 방식의 데이터를 추출할지의 여부를 결정합니다
+        /// 액터 정보를 추출할지의 여부를 결정합니다
         /// </summary>
-        internal bool ExtractJsonData = true;
+        internal bool ExtractActors = true;
+
+        /// <summary>
+        /// 방어구 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractArmors = true;
+
+        /// <summary>
+        /// 적 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractEnemies = true;
+
+        /// <summary>
+        /// 아이템 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractItems = true;
+
+        /// <summary>
+        /// 맵 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractMapInfos = true;
+
+        /// <summary>
+        /// 스킬 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractSkills = true;
+
+        /// <summary>
+        /// 상태 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractStates = true;
+
+        /// <summary>
+        /// 적 그룹 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractTroops = true;
+
+        /// <summary>
+        /// 무기 정보를 추출할지의 여부를 결정합니다
+        /// </summary>
+        internal bool ExtractWeapons = true;
 
         /// <summary>
         /// 시스템 데이터를 추출할지의 여부를 결정합니다
@@ -303,18 +343,24 @@ namespace HTStudio.Project.RPGMV
             var backupDataPath = Path.Combine(project.BackupPath, "www/data");
             var applyDataPath = Path.Combine(project.path, "www/data");
 
-            if (ExtractJsonData)
-            {
+            if (ExtractActors)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "Actors.json"), Path.Combine(applyDataPath, "Actors.json"), "name");
+            if (ExtractArmors)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "Armors.json"), Path.Combine(applyDataPath, "Armors.json"), "name", "description");
+            if (ExtractEnemies)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "Enemies.json"), Path.Combine(applyDataPath, "Enemies.json"), "name");
+            if (ExtractItems)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "Items.json"), Path.Combine(applyDataPath, "Items.json"), "name", "description");
+            if (ExtractMapInfos)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "MapInfos.json"), Path.Combine(applyDataPath, "MapInfos.json"), "name");
+            if (ExtractSkills)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "Skills.json"), Path.Combine(applyDataPath, "Skills.json"), "name", "description");
+            if (ExtractStates)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "States.json"), Path.Combine(applyDataPath, "States.json"), "name", "message1", "message2", "message3", "message4");
+            if (ExtractTroops)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "Troops.json"), Path.Combine(applyDataPath, "Troops.json"), "name");
+            if (ExtractWeapons)
                 WorkJsonData(isApply, Path.Combine(backupDataPath, "Weapons.json"), Path.Combine(applyDataPath, "Weapons.json"), "name", "description");
-            }
 
             //COMMON EVENT
             if (ExtractCommonEvent)

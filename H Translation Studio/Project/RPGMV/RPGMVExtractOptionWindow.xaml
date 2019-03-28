@@ -5,19 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HTStudio.Project.RPGMV"
         mc:Ignorable="d"
-        Title="RPG MV 추출 옵션" Height="222.353" Width="587.479">
+        Title="RPG MV 추출 옵션" Height="260.924" Width="587.479">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="123*"/>
             <ColumnDefinition Width="70*"/>
         </Grid.ColumnDefinitions>
-        <CheckBox x:Name="ExtractEventTextCheckBox" Content="이벤트 대사 추출" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="ExtractEventScriptCheckBox" Content="이벤트 스크립트 추출" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="ExtractCommonEventCheckBox" Content="커먼 이벤트 추출" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="ExtractMapEventCheckBox" Content="맵 이벤트 추출" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="ExtractJsonDataCheckBox" Content="일반 JSON 데이터 추출" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="ExtractSystemCheckBox" Content="시스템 데이터 추출" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,130,0,0" TextWrapping="Wrap" Text="창을 닫으면 설정이 저장됩니다&#x0a;스크립트 기능을 제외하고, 대부분의 경우 게임을 고장내지 않습니다&#x0a;스크립트 추출 기능은 굉장히 실험적이며, 사용했을때 문제가 생긴다면 체크를 해제하세요." VerticalAlignment="Top" Height="57" Width="559" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="ExtractEventTextCheckBox" Content="이벤트 대사 추출" HorizontalAlignment="Left" Margin="113,16,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractEventScriptCheckBox" Content="이벤트 스크립트 추출" HorizontalAlignment="Left" Margin="233,16,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractCommonEventCheckBox" Content="커먼 이벤트 추출" HorizontalAlignment="Left" Margin="89,42,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractMapEventCheckBox" Content="맵 이벤트 추출" HorizontalAlignment="Left" Margin="206,42,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractSystemCheckBox" Content="시스템 데이터 추출" HorizontalAlignment="Left" Margin="84,68,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,155,0,0" TextWrapping="Wrap" Text="창을 닫으면 설정이 저장됩니다&#x0a;스크립트 기능을 제외하고, 대부분의 경우 게임을 고장내지 않습니다&#x0a;스크립트 추출 기능은 굉장히 실험적이며, 사용했을때 문제가 생긴다면 체크를 해제하세요.&#x0a;텍스트가 한번 추출되었더라도, 추출옵션이 해제되어 있으면 이후 적용 작업에서 제외됩니다!" VerticalAlignment="Top" Height="65" Width="559" Grid.ColumnSpan="2"/>
+        <Label Content="이벤트 처리방식" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="이벤트 추출" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
+        <Label Content="기타 데이터" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractActorsCheckBox" Content="캐릭터 정보 추출" HorizontalAlignment="Left" Margin="213,68,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractArmorsCheckBox" Content="방어구 정보 추출" HorizontalAlignment="Left" Margin="330,68,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="ExtractEnemiesCheckBox" Content="적 정보 추출" HorizontalAlignment="Left" Margin="12,93,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractItemsCheckBox" Content="아이템 정보 추출" HorizontalAlignment="Left" Margin="105,93,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractMapInfosCheckBox" Content="맵 정보 추출" HorizontalAlignment="Left" Margin="222,93,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractSkillsCheckBox" Content="스킬 정보 추출" HorizontalAlignment="Left" Margin="315,93,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="ExtractTroopsCheckBox" Content="적 그룹 정보 추출" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractStatesCheckBox" Content="상태 정보 추출" HorizontalAlignment="Left" Margin="132,113,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtractWeaponsCheckBox" Content="무기 정보 추출" HorizontalAlignment="Left" Margin="237,113,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

@@ -29,7 +29,17 @@ namespace HTStudio.Project.RPGMV
                 ExtractEventScriptCheckBox.IsChecked = value.ExtractEventScript;
                 ExtractCommonEventCheckBox.IsChecked = value.ExtractCommonEvent;
                 ExtractMapEventCheckBox.IsChecked = value.ExtractMapEvent;
-                ExtractJsonDataCheckBox.IsChecked = value.ExtractJsonData;
+
+                ExtractActorsCheckBox.IsChecked = value.ExtractActors;
+                ExtractArmorsCheckBox.IsChecked = value.ExtractArmors;
+                ExtractEnemiesCheckBox.IsChecked = value.ExtractEnemies;
+                ExtractItemsCheckBox.IsChecked = value.ExtractItems;
+                ExtractMapInfosCheckBox.IsChecked = value.ExtractMapInfos;
+                ExtractSkillsCheckBox.IsChecked = value.ExtractSkills;
+                ExtractStatesCheckBox.IsChecked = value.ExtractStates;
+                ExtractTroopsCheckBox.IsChecked = value.ExtractTroops;
+                ExtractWeaponsCheckBox.IsChecked = value.ExtractWeapons;
+
                 ExtractSystemCheckBox.IsChecked = value.ExtractSystemData;
 
                 extractor = value;
@@ -57,8 +67,32 @@ namespace HTStudio.Project.RPGMV
             if (ExtractMapEventCheckBox.IsChecked.HasValue)
                 extractor.ExtractMapEvent = ExtractMapEventCheckBox.IsChecked.Value;
 
-            if (ExtractJsonDataCheckBox.IsChecked.HasValue)
-                extractor.ExtractJsonData = ExtractJsonDataCheckBox.IsChecked.Value;
+            if (ExtractActorsCheckBox.IsChecked.HasValue)
+                extractor.ExtractActors = ExtractActorsCheckBox.IsChecked.Value;
+
+            if (ExtractArmorsCheckBox.IsChecked.HasValue)
+                extractor.ExtractArmors = ExtractArmorsCheckBox.IsChecked.Value;
+
+            if (ExtractEnemiesCheckBox.IsChecked.HasValue)
+                extractor.ExtractEnemies = ExtractEnemiesCheckBox.IsChecked.Value;
+
+            if (ExtractItemsCheckBox.IsChecked.HasValue)
+                extractor.ExtractItems = ExtractItemsCheckBox.IsChecked.Value;
+
+            if (ExtractMapInfosCheckBox.IsChecked.HasValue)
+                extractor.ExtractMapInfos = ExtractMapInfosCheckBox.IsChecked.Value;
+
+            if (ExtractSkillsCheckBox.IsChecked.HasValue)
+                extractor.ExtractSkills = ExtractSkillsCheckBox.IsChecked.Value;
+
+            if (ExtractStatesCheckBox.IsChecked.HasValue)
+                extractor.ExtractStates = ExtractStatesCheckBox.IsChecked.Value;
+
+            if (ExtractTroopsCheckBox.IsChecked.HasValue)
+                extractor.ExtractTroops = ExtractTroopsCheckBox.IsChecked.Value;
+
+            if (ExtractWeaponsCheckBox.IsChecked.HasValue)
+                extractor.ExtractWeapons = ExtractWeaponsCheckBox.IsChecked.Value;
 
             if (ExtractSystemCheckBox.IsChecked.HasValue)
                 extractor.ExtractSystemData = ExtractSystemCheckBox.IsChecked.Value;
