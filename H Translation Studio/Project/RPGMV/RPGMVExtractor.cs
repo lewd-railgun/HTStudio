@@ -112,7 +112,7 @@ namespace HTStudio.Project.RPGMV
                 int code = command["code"].ToObject<int>();
 
                 //모든 텍스트 데이터 읽기
-                if (code == 101 || code == 102) //대사 명령
+                if (code == 101) //대사 명령
                 {
                     i++;
                     int startInx = i;
@@ -130,13 +130,13 @@ namespace HTStudio.Project.RPGMV
                         i++;
                     }
                     builder.Remove(builder.Length - 2, 2);
-                        
+
                     var result = builder.ToString().Trim();
 
                     if (isApply)
                     {
                         var replace = QueryForTranslate(result);
-                        if(replace != result)
+                        if (replace != result)
                         {
                             string[] lines = replace.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                             int inx = 0;
@@ -173,7 +173,11 @@ namespace HTStudio.Project.RPGMV
 
                     continue;
                 }
-                else if(code == 355) //Script
+                else if (code == 102) //선택지
+                {
+                    WorkJArray(isApply, command["parameters"][0] as JArray);
+                }
+                else if (code == 355) //Script
                 {
                     int startInx = i; //스크립트 구문은 본문도 데이터를 포함하고 있기 때문에 같이 고쳐야함!
                     i++;
@@ -193,10 +197,10 @@ namespace HTStudio.Project.RPGMV
                         i++;
                     }
 
-                    if ( isApply )
+                    if (isApply)
                     {
                         var result = WorkScripts(isApply, builder.ToString());
-                        if(result != builder.ToString())
+                        if (result != builder.ToString())
                         {
                             string[] lines = result.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                             int inx = 0;
@@ -342,8 +346,6 @@ namespace HTStudio.Project.RPGMV
 
         public override void Extract()
         {
-            TranslateStrings.Clear();
-
             Work(false);
 
             SaveTranslateStrings();
