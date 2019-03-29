@@ -81,6 +81,7 @@ namespace HTStudio.Project.Base
         {
             BaseProject result = null;
 
+            if ((result = RPGMV.Dieselmine.RPGMVDieselmineProject.Identification(path)) != null) return result;
             if ((result = RPGMV.RPGMVProject.Identification(path)) != null) return result;
 
             return new BaseProject(path);

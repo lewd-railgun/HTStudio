@@ -86,6 +86,8 @@
     <Compile Include="Container\TranslateString.cs" />
     <Compile Include="Project\Base\BaseExtractor.cs" />
     <Compile Include="Project\Base\BaseProject.cs" />
+    <Compile Include="Project\RPGMV\Dieselmine\RPGMVDieselmineExtractor.cs" />
+    <Compile Include="Project\RPGMV\Dieselmine\RPGMVDieselmineProject.cs" />
     <Compile Include="Project\RPGMV\RPGMVExtractOptionWindow.xaml.cs">
       <DependentUpon>RPGMVExtractOptionWindow.xaml</DependentUpon>
     </Compile>
