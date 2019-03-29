@@ -82,6 +82,7 @@ namespace HTStudio.Views
 
         public void startWorkWith(string directory)
         {
+            StartLongProgress();
             workingDirectory = directory;
 
             WorkingTextBlock.Text = "작업 중: " + Path.GetFileName(directory);
@@ -92,6 +93,22 @@ namespace HTStudio.Views
             ExtractStringButton.IsEnabled = project.Extractor.SupportExtract;
             ApplyStringButton.IsEnabled = project.Extractor.SupportApply;
             ExtractorOptionButton.IsEnabled = project.Extractor.HasWindow;
+
+            if( File.Exists(AutoSavePath) )
+            {
+                if(MessageBox.Show("예기치 못한 종료전에 저장된 자동 저장 파일이 남아있습니다. 이 파일로 작업합니까?", "HT Studio", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    project.Extractor.LoadTranslateStrings(AutoSavePath);
+                }
+                try
+                {
+                    File.Delete(AutoSavePath);
+                }
+                catch
+                {
+
+                }
+            }
 
             foreach (TranslateString str in project.Extractor.TranslateStrings)
             {
@@ -113,6 +130,8 @@ namespace HTStudio.Views
                 StringListBox.SelectedIndex = project.LastWorkIndex;
             }
             ActivateHandCheckBox.IsChecked = project.InHandTranslateMode;
+
+            FinishLongProgress();
         }
 
         private RoutedCommand FocusMachineHotKey = new RoutedCommand();
@@ -121,6 +140,14 @@ namespace HTStudio.Views
         private RoutedCommand PrevStringHotKey = new RoutedCommand();
         private RoutedCommand NextStringHotKey = new RoutedCommand();
         private RoutedCommand NeedWorkStringHotKey = new RoutedCommand();
+
+        private bool isEdited = false;
+
+        private string AutoSavePath {
+            get {
+                return Path.Combine(project.ProjectPath, "TranslateStringsAutoSave.json");
+            }
+        }
 
         public MainWindow()
         {
@@ -139,6 +166,22 @@ namespace HTStudio.Views
             CommandBindings.Add(new CommandBinding(PrevStringHotKey, PrevStringButton_Click));
             CommandBindings.Add(new CommandBinding(NextStringHotKey, NextStringButton_Click));
             CommandBindings.Add(new CommandBinding(NeedWorkStringHotKey, NeedWorkStringButton_Click));
+
+            var startTimeSpan = TimeSpan.FromMinutes(5);
+            var periodTimeSpan = TimeSpan.FromMinutes(5);
+
+            var timer = new Timer((e) =>
+            {
+                try
+                {
+                    if (project == null) return;
+                    project.Extractor.SaveTranslateStrings(AutoSavePath);
+                }
+                catch
+                {
+
+                }
+            }, null, startTimeSpan, periodTimeSpan);
         }
 
         private void ExtractStringButton_Click(object sender, RoutedEventArgs e)
@@ -166,6 +209,7 @@ namespace HTStudio.Views
 
         private void SaveTranslateStringButton_Click(object sender, RoutedEventArgs e)
         {
+            isEdited = false;
             project.Extractor.SaveTranslateStrings();
         }
 
@@ -187,7 +231,7 @@ namespace HTStudio.Views
             }
 
             item.Machine = MachineTextBox.Text;
-
+            isEdited = true;
         }
 
         private void HandTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -208,6 +252,7 @@ namespace HTStudio.Views
             }
 
             item.Hand = HandTextBox.Text;
+            isEdited = true;
         }
 
         private void AutoTransButton_Click(object sender, RoutedEventArgs e)
@@ -334,6 +379,24 @@ namespace HTStudio.Views
             MessageBox.Show("손 번역 기능이 중단되었습니다만 이전에 손 번역 하신 내용은 유지됩니다.\r\n마찬가지로 손 번역창을 채운경우 손 번역이, 아닌경우 기계 번역이 자동 적용됩니다!\r\n이를 초기화 하고 싶으시면 .HTStudio 폴더를 삭제후 다시 프로젝트를 생성하시거나 수동으로 지워주세요.");
             HandTextBox.IsEnabled = false;
             project.InHandTranslateMode = false;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if( isEdited && MessageBox.Show("변경된 데이터가 일부 저장되지 않았을 가능성이 있습니다, 그래도 닫습니까?", "HT Studio", MessageBoxButton.YesNo) == MessageBoxResult.No )
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            try
+            {
+                File.Delete(AutoSavePath);
+            }
+            catch(Exception ex)
+            {
+                
+            }
         }
     }
 }

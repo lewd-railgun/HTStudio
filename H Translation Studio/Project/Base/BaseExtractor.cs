@@ -113,9 +113,33 @@ namespace HTStudio.Project.Base
             TranslateStringDict[original] = ts;
         }
 
-        public void SaveTranslateStrings()
+        public void LoadTranslateStrings(string path = null)
         {
-            File.WriteAllText(StringsPath, JsonConvert.SerializeObject(TranslateStrings));
+            if(path == null)
+            {
+                path = StringsPath;
+            }
+            List<TranslateString> result = JsonConvert.DeserializeObject<List<TranslateString>>(File.ReadAllText(path));
+            TranslateStrings.Clear();
+            TranslateStringDict.Clear();
+
+            foreach (var ts in result)
+            {
+                TranslateStrings.Add(ts);
+                TranslateStringDict[ts.Original] = ts;
+            }
+        }
+
+        public void SaveTranslateStrings(string path = null)
+        {
+            if(path != null)
+            {
+                File.WriteAllText(StringsPath, JsonConvert.SerializeObject(TranslateStrings));
+            }
+            else
+            {
+                File.WriteAllText(path, JsonConvert.SerializeObject(TranslateStrings));
+            }
         }
     }
 }
