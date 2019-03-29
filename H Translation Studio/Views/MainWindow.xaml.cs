@@ -108,7 +108,10 @@ namespace HTStudio.Views
             }
             UpdateTranslateState();
 
-
+            if (StringListBox.Items.Count > 0)
+            {
+                StringListBox.SelectedIndex = 0;
+            }
         }
 
         private RoutedCommand FocusMachineHotKey = new RoutedCommand();
