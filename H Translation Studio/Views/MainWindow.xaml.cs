@@ -232,6 +232,7 @@ namespace HTStudio.Views
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
             }
+            project.Extractor.SaveTranslateStrings();
             Dispatcher.Invoke(new Action(() =>
             {
                 UpdateTranslateState(true);
