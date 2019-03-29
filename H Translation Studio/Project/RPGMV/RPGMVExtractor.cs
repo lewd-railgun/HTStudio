@@ -387,6 +387,9 @@ namespace HTStudio.Project.RPGMV
                     if (lowerName.StartsWith("map") && !lowerName.StartsWith("mapinfos"))
                     {
                         var map = JObject.Parse(File.ReadAllText(path));
+                        //MapVoice.json 같은 예외적인 파일을 거름
+                        if (!map.ContainsKey("events")) continue;
+
                         foreach (JToken data in map["events"])
                         {
                             //빈 데이터 방지
