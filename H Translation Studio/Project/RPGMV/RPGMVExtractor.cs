@@ -90,10 +90,59 @@ namespace HTStudio.Project.RPGMV
         /// </summary>
         internal bool ExtractSystemData = true;
 
+        private string OptionPath {
+            get {
+                return Path.Combine(project.ProjectPath, "RPGMVExtractTarget.json");
+            }
+        }
+
+        public void LoadOption()
+        {
+            if (!File.Exists(OptionPath)) return;
+
+            var json = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(OptionPath));
+
+            ExtractEventText = json["ExtractEventText"].ToObject<bool>();
+            ExtractEventScript = json["ExtractEventScript"].ToObject<bool>();
+            ExtractCommonEvent = json["ExtractCommonEvent"].ToObject<bool>();
+            ExtractMapEvent = json["ExtractMapEvent"].ToObject<bool>();
+            ExtractActors = json["ExtractActors"].ToObject<bool>();
+            ExtractArmors = json["ExtractArmors"].ToObject<bool>();
+            ExtractEnemies = json["ExtractEnemies"].ToObject<bool>();
+            ExtractItems = json["ExtractItems"].ToObject<bool>();
+            ExtractMapInfos = json["ExtractMapInfos"].ToObject<bool>();
+            ExtractSkills = json["ExtractSkills"].ToObject<bool>();
+            ExtractStates = json["ExtractStates"].ToObject<bool>();
+            ExtractTroops = json["ExtractTroops"].ToObject<bool>();
+            ExtractWeapons = json["ExtractWeapons"].ToObject<bool>();
+            ExtractSystemData = json["ExtractSystemData"].ToObject<bool>();
+        }
+
+        public void SaveOption()
+        {
+            var json = new JObject();
+            json["ExtractEventText"] = ExtractEventText;
+            json["ExtractEventScript"] = ExtractEventScript;
+            json["ExtractCommonEvent"] = ExtractCommonEvent;
+            json["ExtractMapEvent"] = ExtractMapEvent;
+            json["ExtractActors"] = ExtractActors;
+            json["ExtractArmors"] = ExtractArmors;
+            json["ExtractEnemies"] = ExtractEnemies;
+            json["ExtractItems"] = ExtractItems;
+            json["ExtractMapInfos"] = ExtractMapInfos;
+            json["ExtractSkills"] = ExtractSkills;
+            json["ExtractStates"] = ExtractStates;
+            json["ExtractTroops"] = ExtractTroops;
+            json["ExtractWeapons"] = ExtractWeapons;
+            json["ExtractSystemData"] = ExtractSystemData;
+
+            File.WriteAllText(OptionPath, JsonConvert.SerializeObject(json));
+        }
+
         #endregion
 
 
-        private readonly Regex ScriptStringExtractor = new Regex(@"""[^""\\]*(?:\\.[^""\\]*)*""");
+        private readonly Regex ScriptStringExtractor = new Regex(@"(""[^""\\]*(?:\\.[^""\\]*)*""|'[^'\\]*(?:\\.[^'\\]*)*')");
 
         public RPGMVExtractor(BaseProject project) : base(project)
         {
@@ -102,10 +151,7 @@ namespace HTStudio.Project.RPGMV
                 Backup();
             }
 
-            if( File.Exists(Path.Combine(project.ProjectPath, "RPGMVExtractorOption.json")))
-            {
-
-            }
+            LoadOption();
         }
 
         private void SaveJson(string path, object data)

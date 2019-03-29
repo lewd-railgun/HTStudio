@@ -96,6 +96,8 @@ namespace HTStudio.Project.RPGMV
 
             if (ExtractSystemCheckBox.IsChecked.HasValue)
                 extractor.ExtractSystemData = ExtractSystemCheckBox.IsChecked.Value;
+
+            extractor.SaveOption();
         }
     }
 }
