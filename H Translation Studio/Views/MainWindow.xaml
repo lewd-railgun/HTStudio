@@ -39,8 +39,8 @@
         <TextBox x:Name="MachineTextBox" HorizontalAlignment="Right" Height="72" Margin="0,238,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="454" TextChanged="MachineTextBox_TextChanged" Grid.ColumnSpan="2"/>
         <Label Content="손번역" HorizontalAlignment="Right" Margin="0,315,126,0" VerticalAlignment="Top"/>
         <TextBox x:Name="HandTextBox" HorizontalAlignment="Right" Height="72" Margin="0,315,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="454" TextChanged="HandTextBox_TextChanged" Grid.ColumnSpan="2" IsEnabled="False"/>
-        <Button x:Name="PrevStringButton" Content="이전줄" HorizontalAlignment="Right" Height="24" Margin="0,431,91,0" VerticalAlignment="Top" Width="81"/>
-        <Button x:Name="NextStringButton" Content="다음줄" HorizontalAlignment="Right" Height="24" Margin="0,431,5,0" VerticalAlignment="Top" Width="81"/>
+        <Button x:Name="PrevStringButton" Content="이전줄" HorizontalAlignment="Right" Height="24" Margin="0,431,91,0" VerticalAlignment="Top" Width="81" Click="PrevStringButton_Click"/>
+        <Button x:Name="NextStringButton" Content="다음줄" HorizontalAlignment="Right" Height="24" Margin="0,431,5,0" VerticalAlignment="Top" Width="81" Click="NextStringButton_Click"/>
         <Button x:Name="NeedWorkStringButton" Content="작업이 필요한 문자열" HorizontalAlignment="Right" Height="24" Margin="0,431,209,0" VerticalAlignment="Top" Width="129" Click="NeedWorkStringButton_Click" Grid.Column="1"/>
         <Button x:Name="SaveTranslateStringButton" Content="작업상황저장" Margin="0,431,12,0" Click="SaveTranslateStringButton_Click" HorizontalAlignment="Right" Width="118" Height="24" VerticalAlignment="Top" Grid.Column="1"/>
         <TextBlock x:Name="ProgressTextBlock" Margin="10,0,10,8" TextWrapping="Wrap" Text="대기" Height="16" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>

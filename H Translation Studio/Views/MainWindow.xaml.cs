@@ -118,6 +118,10 @@ namespace HTStudio.Views
         private RoutedCommand FocusMachineHotKey = new RoutedCommand();
         private RoutedCommand FocusHandHotKey = new RoutedCommand();
 
+        private RoutedCommand PrevStringHotKey = new RoutedCommand();
+        private RoutedCommand NextStringHotKey = new RoutedCommand();
+        private RoutedCommand NeedWorkStringHotKey = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -125,8 +129,16 @@ namespace HTStudio.Views
             FocusMachineHotKey.InputGestures.Add(new KeyGesture(Key.Q, ModifierKeys.Control));
             FocusHandHotKey.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
 
+            PrevStringHotKey.InputGestures.Add(new KeyGesture(Key.A, ModifierKeys.Control));
+            NextStringHotKey.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            NeedWorkStringHotKey.InputGestures.Add(new KeyGesture(Key.D, ModifierKeys.Control));
+
             CommandBindings.Add(new CommandBinding(FocusMachineHotKey, FocusToMachine));
             CommandBindings.Add(new CommandBinding(FocusHandHotKey, FocusToHand));
+
+            CommandBindings.Add(new CommandBinding(PrevStringHotKey, PrevStringButton_Click));
+            CommandBindings.Add(new CommandBinding(NextStringHotKey, NextStringButton_Click));
+            CommandBindings.Add(new CommandBinding(NeedWorkStringHotKey, NeedWorkStringButton_Click));
         }
 
         private void ExtractStringButton_Click(object sender, RoutedEventArgs e)
@@ -279,6 +291,20 @@ namespace HTStudio.Views
         private void FocusToHand(object sender, ExecutedRoutedEventArgs e)
         {
             HandTextBox.Focus();
+        }
+
+        private void PrevStringButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (StringListBox.SelectedIndex <= 0) return;
+
+            StringListBox.SelectedIndex--;
+        }
+
+        private void NextStringButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (StringListBox.SelectedIndex > StringListBox.Items.Count) return;
+
+            StringListBox.SelectedIndex++;
         }
 
         private void NeedWorkStringButton_Click(object sender, RoutedEventArgs e)
