@@ -110,8 +110,9 @@ namespace HTStudio.Views
 
             if (StringListBox.Items.Count > 0)
             {
-                StringListBox.SelectedIndex = 0;
+                StringListBox.SelectedIndex = project.LastWorkIndex;
             }
+            ActivateHandCheckBox.IsChecked = project.InHandTranslateMode;
         }
 
         private RoutedCommand FocusMachineHotKey = new RoutedCommand();
@@ -143,6 +144,7 @@ namespace HTStudio.Views
         {
             if (StringListBox.SelectedIndex == -1) return;
 
+            project.LastWorkIndex = StringListBox.SelectedIndex;
             var item = StringListBox.Items[StringListBox.SelectedIndex] as TranslateString;
 
             OriginalTextBox.Text = item.Original;
@@ -277,6 +279,35 @@ namespace HTStudio.Views
         private void FocusToHand(object sender, ExecutedRoutedEventArgs e)
         {
             HandTextBox.Focus();
+        }
+
+        private void NeedWorkStringButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(var translateString in project.Extractor.TranslateStrings.Select((value, i) => new { i, value }))
+            {
+                if(translateString.value.Machine == "" || (translateString.value.Hand == "" && project.InHandTranslateMode) )
+                {
+                    StringListBox.SelectedIndex = translateString.i;
+                    StringListBox.ScrollIntoView(translateString.value);
+                    return;
+                }
+            }
+
+            MessageBox.Show("모든 작업이 완료된것으로 보입니다");
+        }
+
+        private void ActivateHandCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("손 번역을 시작하시기로 하신것을 감사하게 생각합니다.\r\n손 번역창을 채운경우 손 번역이, 아닌경우 기계 번역이 자동 적용됩니다!");
+            HandTextBox.IsEnabled = true;
+            project.InHandTranslateMode = true;
+        }
+
+        private void ActivateHandCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("손 번역 기능이 중단되었습니다만 이전에 손 번역 하신 내용은 유지됩니다.\r\n마찬가지로 손 번역창을 채운경우 손 번역이, 아닌경우 기계 번역이 자동 적용됩니다!\r\n이를 초기화 하고 싶으시면 .HTStudio 폴더를 삭제후 다시 프로젝트를 생성하시거나 수동으로 지워주세요.");
+            HandTextBox.IsEnabled = false;
+            project.InHandTranslateMode = false;
         }
     }
 }

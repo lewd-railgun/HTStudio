@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace HTStudio.Project.Base
 {
@@ -23,6 +25,42 @@ namespace HTStudio.Project.Base
                 return Path.Combine(ProjectPath, "Backup");
             }
         }
+
+
+        private bool inHandTranslateMode = false;
+        public bool InHandTranslateMode {
+            get {
+                return inHandTranslateMode;
+            }
+            set {
+                inHandTranslateMode = value;
+                Save();
+            }
+        }
+
+        private int lastWorkIndex = 0;
+        public int LastWorkIndex {
+            get {
+                return lastWorkIndex;
+            }
+            set {
+                lastWorkIndex = value;
+                Save();
+            }
+        }
+
+        private string BaseJsonPath {
+            get {
+                return Path.Combine(ProjectPath, "base.json");
+            }
+        }
+        private void Save()
+        {
+            var json = new JObject();
+            json["InHandTranslateMode"] = InHandTranslateMode;
+            json["LastWorkIndex"] = LastWorkIndex;
+            File.WriteAllText(BaseJsonPath, JsonConvert.SerializeObject(json));
+        }
         
         public BaseProject(string path)
         {
@@ -30,6 +68,13 @@ namespace HTStudio.Project.Base
             baseExtractor = new BaseExtractor(this);
 
             Directory.CreateDirectory(ProjectPath);
+            if( File.Exists(BaseJsonPath) )
+            {
+                var json = JsonConvert.DeserializeObject<JObject>(File.ReadAllText(BaseJsonPath));
+
+                inHandTranslateMode = json["InHandTranslateMode"].ToObject<bool>();
+                lastWorkIndex = json["LastWorkIndex"].ToObject<int>();
+            }
         }
 
         public static BaseProject IdentificationProject(string path)
