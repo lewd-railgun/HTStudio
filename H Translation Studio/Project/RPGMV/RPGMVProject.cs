@@ -26,7 +26,12 @@ namespace HTStudio.Project.RPGMV
             if (!File.Exists( Path.Combine(path, "Game.exe"))) return null;
             if (!File.Exists( Path.Combine(path, "www/data/System.json"))) return null;
 
-            return new RPGMVProject(path);
+            var project = new RPGMVProject(path);
+            if (!Directory.Exists(project.BackupPath))
+            {
+                project.extractor.Backup();
+            }
+            return project;
         }
     }
 }

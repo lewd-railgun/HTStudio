@@ -146,11 +146,6 @@ namespace HTStudio.Project.RPGMV
 
         public RPGMVExtractor(BaseProject project) : base(project)
         {
-            if (!Directory.Exists(project.BackupPath))
-            {
-                Backup();
-            }
-
             LoadOption();
         }
 
