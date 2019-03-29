@@ -111,9 +111,18 @@ namespace HTStudio.Views
 
         }
 
+        private RoutedCommand FocusMachineHotKey = new RoutedCommand();
+        private RoutedCommand FocusHandHotKey = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            FocusMachineHotKey.InputGestures.Add(new KeyGesture(Key.Q, ModifierKeys.Control));
+            FocusHandHotKey.InputGestures.Add(new KeyGesture(Key.W, ModifierKeys.Control));
+
+            CommandBindings.Add(new CommandBinding(FocusMachineHotKey, FocusToMachine));
+            CommandBindings.Add(new CommandBinding(FocusHandHotKey, FocusToHand));
         }
 
         private void ExtractStringButton_Click(object sender, RoutedEventArgs e)
@@ -255,6 +264,16 @@ namespace HTStudio.Views
         {
             project.Extractor.Restore();
             MessageBox.Show("원본 복구가 완료되었습니다!");
+        }
+
+        private void FocusToMachine(object sender, ExecutedRoutedEventArgs e)
+        {
+            MachineTextBox.Focus();
+        }
+
+        private void FocusToHand(object sender, ExecutedRoutedEventArgs e)
+        {
+            HandTextBox.Focus();
         }
     }
 }
