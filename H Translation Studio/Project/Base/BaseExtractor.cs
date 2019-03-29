@@ -132,14 +132,11 @@ namespace HTStudio.Project.Base
 
         public void SaveTranslateStrings(string path = null)
         {
-            if(path != null)
+            if(path == null)
             {
-                File.WriteAllText(StringsPath, JsonConvert.SerializeObject(TranslateStrings));
+                path = StringsPath;
             }
-            else
-            {
-                File.WriteAllText(path, JsonConvert.SerializeObject(TranslateStrings));
-            }
+            File.WriteAllText(path, JsonConvert.SerializeObject(TranslateStrings));
         }
     }
 }
